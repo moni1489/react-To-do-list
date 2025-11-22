@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import "./App.css";
+import maCherie from "./assets/ma_cherie.mp3";
 
 function App() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
-
+  const audioRef = React.useRef(new Audio(maCherie));
+  const playmusic = () => {
+    audioRef.current.play();
+  };
   const addTask = () => {
     const trimmed = task.trim();
     if (trimmed) {
@@ -109,6 +113,25 @@ function App() {
           </li>
         ))}
       </ul>
+      <button
+        onClick={playmusic}
+        style={{
+          position: "fixed",
+          bottom: "5px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          padding: "12px 25px",
+          fontSize: "16px",
+          borderRadius: "10px",
+          background: "#ff4081",
+          color: "white",
+          border: "none",
+          cursor: "pointer",
+          fontWeight: "bold",
+        }}
+      >
+       play some malice mizer
+      </button>
     </div>
   );
 }

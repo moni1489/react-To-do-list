@@ -1,14 +1,62 @@
 import React, { useState } from "react";
 import "./App.css";
-import maCherie from "./assets/ma_cherie.mp3";
 
+function MusicPlayer() {
+  const [spotifyLink, setSpotifyLink] = useState("");
+
+  const getEmbedLink = (link) => {
+    if (!link) return "";
+    return link.replace("open.spotify.com/", "open.spotify.com/embed/");
+  };
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        width: "100%",
+        background: "#222",
+        padding: "10px 0",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 1000,
+        boxShadow: "0 -2px 10px rgba(0,0,0,0.5)",
+      }}
+    >
+      <input
+        type="text"
+        placeholder="paste your spotify link here"
+        value={spotifyLink}
+        onChange={(e) => setSpotifyLink(e.target.value)}
+        style={{
+          padding: "6px 8px",
+          borderRadius: "8px",
+          border: "1px solid #ccc",
+          width: "300px",
+        }}
+      />
+
+      {spotifyLink && (
+        <iframe
+          src={getEmbedLink(spotifyLink)}
+          width="300"
+          height="80"
+          frameBorder="0"
+          allowtransparency="true"
+          allow="encrypted-media"
+          style={{ borderRadius: "10px", marginLeft: "10px" }}
+          title="Spotify Player"
+        ></iframe>
+      )}
+    </div>
+  );
+}
 function App() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
-  const audioRef = React.useRef(new Audio(maCherie));
-  const playmusic = () => {
-    audioRef.current.play();
-  };
+
   const addTask = () => {
     const trimmed = task.trim();
     if (trimmed) {
@@ -29,7 +77,7 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className="app-container" style={{ paddingBottom: "150px" }}>
       <h1>to-do list by monya325</h1>
 
       <div>
@@ -37,7 +85,7 @@ function App() {
           type="text"
           value={task}
           onChange={(e) => setTask(e.target.value)}
-          placeholder="Введите задачу..."
+          placeholder="input your task..."
           style={{
             padding: "10px",
             borderRadius: "8px",
@@ -59,7 +107,7 @@ function App() {
             fontWeight: "bold",
           }}
         >
-          Добавить
+          add
         </button>
       </div>
 
@@ -88,10 +136,9 @@ function App() {
                 textAlign: "left",
               }}
             >
-              {t.done ? " " : " "} {t.text}
+              {t.text}
             </span>
 
-            
             <div
               onClick={() => deleteTask(i)}
               style={{
@@ -113,25 +160,9 @@ function App() {
           </li>
         ))}
       </ul>
-      <button
-        onClick={playmusic}
-        style={{
-          position: "fixed",
-          bottom: "5px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          padding: "12px 25px",
-          fontSize: "16px",
-          borderRadius: "10px",
-          background: "#ff4081",
-          color: "white",
-          border: "none",
-          cursor: "pointer",
-          fontWeight: "bold",
-        }}
-      >
-       play some malice mizer
-      </button>
+
+      {}
+      <MusicPlayer />
     </div>
   );
 }
